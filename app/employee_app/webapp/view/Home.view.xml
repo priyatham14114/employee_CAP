@@ -1,0 +1,164 @@
+<mvc:View
+    controllerName="com.app.employeeapp.controller.Home"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:ui5="sap.ui.webc.main"
+>
+    <f:DynamicPage
+        id="_IDGenDynamicPage1"
+        headerExpanded="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle
+                id="_IDGenDynamicPageTitle"
+                class="adminPageHeader"
+            >
+                <f:expandedContent>
+                    <Label
+                        id="_IDGenLabel"
+                        text="Welcomes you"
+                    />
+                </f:expandedContent>
+                <f:heading>
+                    <Title
+                        id="_IDGenTitle"
+                        text="Employee Info App"
+                    />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+            <f:DynamicPageHeader
+                id="_IDGenDynamicPageHeader"
+                class="adminPageHeader"
+            >
+                <Text
+                    id="_IDGenText"
+                    text="This application shows the employee data"
+                />
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+            <Table
+                id="_IDGenTable"
+                mode="MultiSelect"
+                alternateRowColors="true"
+                items="{path:'/employee_Data',parameters:{ 
+                    $count:true,
+                    $$updateGroupId:'booksGroup'     
+                     }
+                }"
+            >
+                <headerToolbar>
+                    <OverflowToolbar id="idBooksTableHeader">
+                        <!-- text="Availble Stock :{/Books/$count} Books" -->
+
+                        <Title
+                            id="_IDGenTitle1"
+                            text="All employees"
+                        />
+                        <ToolbarSpacer id="_IDGenToolbarSpacer" />
+                        <Button
+                            id="_IDGenButton"
+                            icon="sap-icon://refresh"
+                            type="Emphasized"
+                            press="onRefresh"
+                        />
+                        <Button
+                            id="_IDGenButton1"
+                            text="Edit"
+                            icon="sap-icon://edit"
+                            type="Emphasized"
+                            press="onEdit"
+                        />
+                        <Button
+                            id="_IDGenButton2"
+                            text="Add"
+                            icon="sap-icon://add"
+                            tooltip="Add a Record"
+                            type="Success"
+                            press="loadCreateFragment"
+                        />
+                        <Button
+                            id="_IDGenButton3"
+                            press="onDelete"
+                            icon="sap-icon://delete"
+                            tooltip="Delete Record"
+                            text="Delete"
+                            type="Negative"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column id="_IDGenColumn">
+                        <Title
+                            id="_IDGenTitle2"
+                            text="ID"
+                        />
+                    </Column>
+                    <Column id="_IDGenColumn1">
+                        <Title
+                            id="_IDGenTitle3"
+                            text="Name"
+                        />
+                    </Column>
+                    <Column id="_IDGenColumn2">
+                        <Title
+                            id="_IDGenTitle4"
+                            text="E-mail"
+                        />
+                    </Column>
+                    <Column id="_IDGenColumn3">
+                        <Title
+                            id="_IDGenTitle5"
+                            text="Phone"
+                        />
+                    </Column>
+                    <Column id="_IDGenColumn4">
+                        <Title
+                            id="_IDGenTitle6"
+                            text="Department"
+                        />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem
+                        id="_IDGenColumnListItem"
+                        type="Navigation"
+                    >
+                        <cells>
+                            <Text
+                                id="_IDGenText1"
+                                text="{ID}"
+                            />
+                            <Text
+                                id="_IDGenText2"
+                                text="{first_Name}"
+                            />
+                            <Text
+                                id="_IDGenText3"
+                                text="{email}"
+                            />
+                            <Text
+                                id="_IDGenText4"
+                                text="{phone}"
+                            />
+                            <Text
+                                id="_IDGenText5"
+                                text="{department/name}"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+
+</mvc:View>
