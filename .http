@@ -8,21 +8,21 @@ POST http://localhost:4004/EmployeeSRV/employee_Data HTTP/1.1
 Content-Type : application/json
 
 {
-    "first_Name": "John",
-    "last_Name": "Doe",
+    "first_Name": "subhash",
+    "last_Name": "Priyathama",
     "gender": "Male",
     "age": 35,
-    "email": "john.doe@example.com",
+    "email": "priyathama.subhash@artihcus.com",
     "phone": 1234567890,
     "address": [
         {
-            "city": "New York",
+            "city": "HYD",
             "pincode": 10001,
             "street": "5th Avenue",
             "landmark": "Near Central Park"
         },
         {
-            "city": "Los Angeles",
+            "city": "KKD",
             "pincode": 90001,
             "street": "Hollywood Blvd",
             "landmark": "Near Walk of Fame"
