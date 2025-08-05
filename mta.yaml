@@ -8,6 +8,8 @@ modules:
   path: gen/srv
   requires:
   - name: employee_CAP-db
+  - name: employee_CAP-auth
+  - name: employee_CAP-destination-service
   provides:
   - name: srv-api
     properties:
@@ -45,9 +47,23 @@ modules:
       - comappemployeeapp.zip
       name: comappemployeeapp
       target-path: resources/
+    - artifacts:
+      - employeefiorielement.zip
+      name: employeefiorielement
+      target-path: resources/
 - name: comappemployeeapp
   type: html5
   path: app/employee_app
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: employeefiorielement
+  type: html5
+  path: app/employee_fiori_element
   build-parameters:
     build-result: dist
     builder: custom
@@ -82,17 +98,35 @@ resources:
             ProxyType: Internet
             Type: HTTP
             URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: employee_CAP-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
           existing_destinations_policy: update
       version: 1.0.0
     service: destination
     service-name: employee_CAP-destination-service
     service-plan: lite
+  requires:
+  - name: srv-api
 - name: cross-container-service-1
   type: org.cloudfoundry.existing-service
   parameters:
     service-name: employee_CAP-db
   properties:
     the-service-name: ${service-name}
+- name: employee_CAP-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: employee_CAP-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

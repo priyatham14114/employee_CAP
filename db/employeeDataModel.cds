@@ -8,7 +8,7 @@ entity employee_Data : cuid {   // here cuid automatically creates a unique ID f
     gender          : String;
     age             : Integer;
     email           : String; 
-    phone           : Integer;
+    phone           : String;
     address         : Composition of many employee_Address // A tight coupled relation with address entity 
                           on address.employee = $self;  // (when employee have multiple address)
     department      : Association to Department;

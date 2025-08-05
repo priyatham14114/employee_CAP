@@ -1,19 +1,21 @@
 # Get call
+
+@server = http://localhost:4004 
 ###
-GET http://localhost:4004/EmployeeSRV/employee_Data?$expand=address,department HTTP/1.1
+GET {{server}}/EmployeeSRV/employee_Data?$expand=address,department HTTP/1.1
 
 # Create call
-###
+####
 POST http://localhost:4004/EmployeeSRV/employee_Data HTTP/1.1
 Content-Type : application/json
 
 {
-    "first_Name": "subhash",
-    "last_Name": "Priyathama",
+    "first_Name": "Subba",
+    "last_Name": "Reddy",
     "gender": "Male",
     "age": 35,
-    "email": "priyathama.subhash@artihcus.com",
-    "phone": 1234567890,
+    "email": "Subba.subhash@artihcus.com",
+    "phone": "1234567890",
     "address": [
         {
             "city": "HYD",

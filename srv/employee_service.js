@@ -1,29 +1,76 @@
 const cds = require('@sap/cds');
+const { executeHttpRequest } = require('@sap-cloud-sdk/http-client');
+
 
 module.exports = cds.service.impl(async function () {
 
     this.on('CREATE', 'employee_Data', async (req) => {
-        const { data } = req; // destructure the data
-
-        // You can write custom logic here, for example, validate the input data before creating a record
+        const { data } = req;
         try {
-            const employee = await INSERT.into('employee_Data').entries(data); // Insert employee data into employee_data table
-            // you can give response for the request
-            return req.reply({
-                employee: employee,     // Return the newly created employee
-                statusCode: 201,         // Return the status code 
-                statusText: "Created"   // Return the status text
-            });
+          // Save the original payload in the request context
+          req.context.originalPayload = data;
+      
+          // Proceed with the insert
+          const employee = await INSERT.into('employee_Data').entries(data);
+          return employee;
         } catch (error) {
-            // General error handling
-            return req.reply({
-                statusCode: 500,    // Internal Server Error
-                statusText: 'Internal Server Error',
-                message: 'An unexpected error occurred.',
-                details: error.message // Include more details about the error (careful about sensitive info)
-            });
+          req.error({
+            code: 'CREATE_FAILED',
+            message: 'Failed to create employee record.',
+            target: 'employee_Data',
+            details: [{ message: error.message }]
+          });
         }
-    });
+      });      
+    // trigger CPI
+    this.after('CREATE', 'employee_Data', async (employee, req) => {
+        try {
+          // Retrieve the original payload
+          const payload = req.context.originalPayload;
+          console.log("employee===="+ employee)
+          console.log('Payload sent to CPI:', payload);
+      
+          const response = await executeHttpRequest(
+            { destinationName: 'CPI_Employee_CAP_Dest' },
+            {
+              method: 'POST',
+              url: '',
+              data: payload // Sending the original payload to CPI
+            }
+          );
+          console.log('CPI Triggered:', response.data);
+        } catch (err) {
+          console.error('Error calling CPI:', err.message);
+        }
+      });
+      
+
+    // this.after('CREATE', 'employee_Data', async (req) => {
+    //     try {
+    //       // Handle both single and batch creates
+    //     // const employees = Array.isArray(employee) ? employee : [employee];
+    //       const payload = req.context.originalPayload;
+    
+    //     //   const employees = Array.isArray(payload) ? payload : [payload];
+
+    //       for (const emp of payload) {
+    //         console.log("emp-----"+ emp)
+    //         const response = await executeHttpRequest(
+    //           { destinationName: 'CPI_Employee_CAP_Dest' },
+    //           {
+    //             method: 'POST',
+    //             url: '', // Uses the base URL from destination
+    //             data: emp
+    //           }
+    //         );
+    //         console.log('CPI Triggered:', response.data);
+    //         console.log('Payload sent to CPI:', emp);
+    //       }
+    //     } catch (err) {
+    //       console.error('Error calling CPI:', err.message);
+    //     }
+    //   });
+      
 
     this.on('UPDATE', 'employee_Data', async (req) => {
         const { data } = req;

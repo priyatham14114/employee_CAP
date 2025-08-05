@@ -1,4 +1,4 @@
-using employee_CAP.db as db from '../db/employeeDataModel';  // importing the data models from data model file using its namespace 
+using employee_CAP.db as db from '../db/employeeDataModel';  // importing the data models from data model file using its namespace
 
 @path: '/EmployeeSRV'  // annotating service path 
 service EmployeeService {   // defining service 
